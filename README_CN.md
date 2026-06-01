@@ -154,7 +154,7 @@ lora-mt/
 @software{lora-mt,
   title = {LoRA-MT: Multilingual Translation via LoRA Fine-Tuning},
   year = {2026},
-  url = {https://github.com/Adobiz/lora-mt}
+  url = {https://github.com/Adobiz/LoRA-MT}
 }
 ```
 

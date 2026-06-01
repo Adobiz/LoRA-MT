@@ -151,7 +151,7 @@ Base model: [Tencent Hy-MT2](https://huggingface.co/tencent/Hy-MT2-7B)
 @software{mt-lora,
   title = {LoRA-MT: Multilingual Translation via LoRA Fine-Tuning},
   year = {2026},
-  url = {https://github.com/Adobiz/mt-lora}
+  url = {https://github.com/Adobiz/LoRA-MT}
 }
 ```
 
