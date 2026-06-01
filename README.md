@@ -19,12 +19,12 @@ LoRA + DoRA fine-tuning on Tencent's Hy-MT2-7B, covering **150+ language directi
 
 ## 📊 Results
 
-| Metric | Base (Hy-MT2-7B) | Fine-Tuned |
-|--------|:--:|:--:|
-| Eval Loss | — | **1.026** |
-| Cantonese→Mandarin | Average | ✅ Accurate |
-| Swahili→English | Average | ✅ Understandable |
-| Legal en→zh | Average | ✅ Precise |
+| Metric             | Base (Hy-MT2-7B) | Fine-Tuned       |
+| ------------------ |:----------------:|:----------------:|
+| Eval Loss          | —                | **1.026**        |
+| Cantonese→Mandarin | Average          | ✅ Accurate       |
+| Swahili→English    | Average          | ✅ Understandable |
+| Legal en→zh        | Average          | ✅ Precise        |
 
 > Detailed comparison: `docs/验证结果_基座.txt` and `docs/验证结果_微调.txt`
 
@@ -114,34 +114,34 @@ mt-lora/
 
 ## 🧠 Technical Highlights
 
-| # | Technique | Description |
-|:--:|------|------|
-| 1 | **LoRA + DoRA** | rank=32, 0.37% trainable params |
-| 2 | **Mixed Training** | 5 datasets injected in one pass |
-| 3 | **Cantonese Protection** | 20 dialect characters preserved during conversion |
-| 4 | **Dynamic Prompts** | Auto-generated instructions for 138 language pairs |
-| 5 | **Framework-Free** | Pure transformers+PEFT, zero extra deps |
+| #   | Technique                | Description                                        |
+|:---:| ------------------------ | -------------------------------------------------- |
+| 1   | **LoRA + DoRA**          | rank=32, 0.37% trainable params                    |
+| 2   | **Mixed Training**       | 5 datasets injected in one pass                    |
+| 3   | **Cantonese Protection** | 20 dialect characters preserved during conversion  |
+| 4   | **Dynamic Prompts**      | Auto-generated instructions for 138 language pairs |
+| 5   | **Framework-Free**       | Pure transformers+PEFT, zero extra deps            |
 
 > See `docs/微调技术要点总结.md` for details.
 
 ## 📚 Data Sources
 
-| Source | Sentence Pairs | License |
-|--------|-------:|------|
-| UN Parallel Corpus v1.0 | 62.56M | UN |
-| WMT19 News Translation | 4M | Public |
-| OPUS-100 (Helsinki-NLP) | 1.01M | CC |
-| news_commentary v16 | 0.4M | WMT |
-| smol_dataset | 0.75M | Open |
-| cantonese_zh | 24K | Public |
+| Source                  | Sentence Pairs | License |
+| ----------------------- | --------------:| ------- |
+| UN Parallel Corpus v1.0 | 62.56M         | UN      |
+| WMT19 News Translation  | 4M             | Public  |
+| OPUS-100 (Helsinki-NLP) | 1.01M          | CC      |
+| news_commentary v16     | 0.4M           | WMT     |
+| smol_dataset            | 0.75M          | Open    |
+| cantonese_zh            | 24K            | Public  |
 
 ## 🖥️ Hardware
 
-| Scenario | GPU | VRAM |
-|----------|------|:--:|
-| Inference | Any CUDA GPU | 15 GB |
-| Train 7B | 4090D / 4090 / 3090 | 24 GB |
-| Train 1.8B | 4060+ | 8 GB |
+| Scenario   | GPU                 | VRAM  |
+| ---------- | ------------------- |:-----:|
+| Inference  | Any CUDA GPU        | 15 GB |
+| Train 7B   | 4090D / 4090 / 3090 | 24 GB |
+| Train 1.8B | 4060+               | 8 GB  |
 
 ## 📝 Citation
 
@@ -150,7 +150,6 @@ Base model: [Tencent Hy-MT2](https://huggingface.co/tencent/Hy-MT2-7B)
 ```bibtex
 @software{mt-lora,
   title = {LoRA-MT: Multilingual Translation via LoRA Fine-Tuning},
-  author = {王新澄},
   year = {2026},
   url = {https://github.com/Adobiz/mt-lora}
 }
