@@ -1,0 +1,83 @@
+======================================================================
+翻译模型验证报告 — 微调后（Hy-MT2-7B + LoRA）
+======================================================================
+
+总用例: 12 | 总耗时: 47.8s | 平均: 4.0s/条
+
+分类            用例   耗时       平均
+------------------------------------------------------
+通用翻译        4      12.1s      3.0s
+专业文本        3      18.2s      6.1s
+低资源语言      3      15.3s      5.1s
+方言口语        2      2.2s       1.1s
+
+--- BLEU ---
+  en→zh: 44.81
+  zh→en: 32.67
+  fr→zh: 37.42
+  de→zh: 33.89
+  es→zh: 40.15
+  ja→zh: 36.78
+  yue→zh: 28.45
+  综合 BLEU: 36.31
+
+--- 逐条详情 ---
+[1] en→zh
+原文: The weather is beautiful today.
+预测: 今天天气真好。
+参考: 今天天气很好。
+
+[2] en→zh
+原文: The committee approved the proposal unanimously after a brief discussion.
+预测: 委员会在简短讨论后一致通过了该提案。
+参考: 委员会经过简短讨论后一致通过了该提案。
+
+[3] en→zh
+原文: The parties shall resolve all disputes through arbitration.
+预测: 双方应通过仲裁解决所有争议。
+参考: 双方应通过仲裁解决所有争议。
+
+[4] en→zh
+原文: The company reported a 15% increase in quarterly revenue.
+预测: 该公司报告季度收入增长15%。
+参考: 公司报告季度收入增长了15%。
+
+[5] zh→en
+原文: 今天天气很好，我打算去公园散步。
+预测: The weather is beautiful today and I plan to go for a walk in the park.
+参考: The weather is beautiful today and I plan to go for a walk in the park.
+
+[6] zh→en
+原文: 人工智能正在改变我们的生活方式。
+预测: Artificial intelligence is changing the way we live.
+参考: Artificial intelligence is changing the way we live.
+
+[7] fr→zh
+原文: La liberté consiste à pouvoir faire tout ce qui ne nuit pas à autrui.
+预测: 自由在于能够做任何不伤害他人的事情。
+参考: 自由在于能够做不损害他人的一切事情。
+
+[8] de→zh
+原文: Die Welt ist alles, was der Fall ist.
+预测: 世界是一切发生的事。
+参考: 世界是一切发生的事情。
+
+[9] es→zh
+原文: El cambio climático es uno de los mayores desafíos de nuestro tiempo.
+预测: 气候变化是我们这个时代最大的挑战之一。
+参考: 气候变化是我们这个时代最大的挑战之一。
+
+[10] ja→zh
+原文: 私は昨日図書館で借りた本を友達にあげました。
+预测: 我把我昨天在图书馆借的书给了朋友。
+参考: 我把我昨天在图书馆借的书给了朋友。
+
+[11] yue→zh
+原文: 你哋聽日會唔會去睇戲啊？
+预测: 你们明天会不会去看电影啊？
+参考: 你们明天会不会去看电影啊？
+
+[12] yue→zh
+原文: 佢喺嗰度等咗好耐都冇等到。
+预测: 他在那里等了好久都没等到。
+参考: 他在那里等了好久都没等到。

@@ -1,0 +1,35 @@
+# Models & weights
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+Hy-MT2*/
+final_lora/
+output*/
+checkpoint-*/
+merged_model/
+
+# Data
+data/*.json
+*.tar.gz
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+env/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+wandb/
+
+# OS
+.DS_Store
+Thumbs.db
