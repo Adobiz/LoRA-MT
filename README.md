@@ -1,163 +1,161 @@
-# 🌐 LoRA-MT: 多语种翻译模型 LoRA 微调
+# 🌐 LoRA-MT: Multilingual Translation via LoRA Fine-Tuning
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
 [![Model: Hy-MT2](https://img.shields.io/badge/base_model-Hy--MT2--7B-green.svg)](https://huggingface.co/tencent/Hy-MT2-7B)
 
-基于腾讯 Hy-MT2-7B 的 LoRA + DoRA 微调，覆盖 **150+ 语言方向、5 大领域**，adapter 仅 **110MB**。
+English | [简体中文](README_CN.md)
 
-## ✨ 特性
+LoRA + DoRA fine-tuning on Tencent's Hy-MT2-7B, covering **150+ language directions across 5 domains** with only a **110MB** adapter.
 
-- 📦 **轻量化**：LoRA 微调，adapter 仅 110MB（基座模型可独立下载）
-- 🌍 **多语种**：150+ 语言方向，含 138 种低资源语言
-- 🗣️ **方言支持**：粤语→普通话（占位符保护法防止特征字丢失）
-- ⚖️ **专业文本**：法律、商务、医学、外交领域精准翻译
-- 🔁 **多语序**：SVO/SOV/VSO/框形结构 → 自然中文
-- ⚡ **即开即用**：提供推理脚本，一行命令运行
+## ✨ Features
 
-## 📊 效果对比
+- 📦 **Lightweight**: LoRA adapter only 110MB (base model downloaded separately)
+- 🌍 **Multilingual**: 150+ language directions, including 138 low-resource languages
+- 🗣️ **Dialect Support**: Cantonese → Mandarin (placeholder protection for character preservation)
+- ⚖️ **Professional**: Legal, business, medical, and diplomatic text precision
+- 🔁 **Word Order**: SVO/SOV/VSO/framing structures → natural target language
+- ⚡ **Plug & Play**: One-command inference script included
 
-| 指标         | 基座 (Hy-MT2-7B) | 微调后       |
-| ---------- |:--------------:|:---------:|
-| BLEU (Avg) | 71.01          | **72.78** |
-| 粤语→普通话     | 一般             | ✅ 准确      |
-| 斯瓦希里语→英文   | 一般             | ✅ 可理解     |
-| 法律文本 en→zh | 一般             | ✅ 术语精准    |
+## 📊 Results
 
-> 详细对比见 `docs/验证结果_基座.txt` 和 `docs/验证结果_微调.txt`
+| Metric | Base (Hy-MT2-7B) | Fine-Tuned |
+|--------|:--:|:--:|
+| Eval Loss | — | **1.026** |
+| Cantonese→Mandarin | Average | ✅ Accurate |
+| Swahili→English | Average | ✅ Understandable |
+| Legal en→zh | Average | ✅ Precise |
 
-## 🚀 快速开始
+> Detailed comparison: `docs/验证结果_基座.txt` and `docs/验证结果_微调.txt`
 
-### 安装
+## 🚀 Quick Start
+
+### Install
 
 ```bash
-git clone https://github.com/Adobiz/lora-mt.git
-cd lora-mt
+git clone https://github.com/Adobiz/mt-lora.git
+cd mt-lora
 pip install -r requirements.txt
 ```
 
-### 下载基座模型
+### Download Base Model
 
 ```bash
 huggingface-cli download tencent/Hy-MT2-7B --local-dir ./Hy-MT2-7B
 ```
 
-### 推理
+### Inference
 
 ```bash
-# 单条翻译
+# Single translation
 python submission/inference.py --text "Hello world" --lang en-zh
 
-# 交互模式
+# Interactive mode
 python submission/inference.py --interactive
 
-# 批量翻译(lang en-zh|英译中)
+# Batch translation
 python submission/inference.py --input test.txt --lang en-zh
 ```
 
-## 🔧 训练
+## 🔧 Training
 
-### 准备数据
+### Data Preparation
 
 ```bash
-# 从 OPUS/UN/smol_dataset 等来源收集语料
-# 按 alpaca 格式组织为 JSON 文件
-# 运行预处理（粤语保护等）
-python scripts/preprocess_cantonese.py
-python scripts/convert_to_llamafactory.py
+# Collect corpora from OPUS/UN/smol_dataset, format as alpaca JSON
+python scripts/preprocess_cantonese.py        # Cantonese protection
+python scripts/convert_to_llamafactory.py     # Format conversion
 ```
 
-### 启动训练
+### Launch Training
 
 ```bash
-# 单 GPU
+# Single GPU
 python scripts/train.py \
     --model_path ./Hy-MT2-7B \
     --data_dir ./data \
     --output_dir ./output_7b \
     --batch_size 8 --lora_rank 32
-
-# 多 GPU
-torchrun --nproc_per_node=4 scripts/train.py ...
 ```
 
-### 验证
+### Evaluation
 
 ```bash
-# 20 条测试用例 × 5 大挑战
+# 20 test cases × 5 challenges
 python scripts/validate.py --model ./Hy-MT2-7B --adapter ./output/final_lora
 
-# BLEU 评估
+# BLEU scoring
 python scripts/eval_metrics.py --model ./Hy-MT2-7B --adapter ./output/final_lora
 ```
 
-## 📁 项目结构
+## 📁 Project Structure
 
 ```
-lora-mt/
-├── README.md
+mt-lora/
+├── README.md                          # English
+├── README_CN.md                       # 简体中文
 ├── LICENSE
 ├── requirements.txt
 ├── scripts/
-│   ├── train.py                     # 训练脚本
-│   ├── validate.py                  # 20 用例验证
-│   ├── eval_metrics.py              # BLEU 评估
-│   ├── preprocess_cantonese.py      # 粤语占位符保护
-│   └── convert_to_llamafactory.py   # alpaca 格式转换
-├── submission/                      # 提交交付物
-│   ├── inference.py                 # 推理脚本
-│   ├── README.md                    # 使用说明
-│   └── final_lora/                  # LoRA 权重 (需下载)
+│   ├── train.py                       # Training script
+│   ├── validate.py                    # Validation (20 cases)
+│   ├── eval_metrics.py                # BLEU evaluation
+│   ├── preprocess_cantonese.py        # Cantonese protection
+│   └── convert_to_llamafactory.py     # Alpaca conversion
+├── submission/
+│   ├── inference.py                   # Inference script
+│   └── README.md
 ├── docs/
 │   ├── 验证结果_基座.txt
 │   ├── 验证结果_微调.txt
 │   └── 微调技术要点总结.md
-└── data/                            # 训练数据
+└── data/                              # Training data (prepare separately)
 ```
 
-## 🧠 技术要点
+## 🧠 Technical Highlights
 
-| #   | 技术              | 说明                         |
-|:---:| --------------- | -------------------------- |
-| 1   | **LoRA + DoRA** | rank=32, 仅训 0.37% 参数       |
-| 2   | **混合训练**        | 5 数据集一次性注入，防灾难性遗忘          |
-| 3   | **粤语占位符保护**     | 20 个特征字在繁转简时被保护            |
-| 4   | **动态指令**        | 138 种语言方向自动生成正确 prompt     |
-| 5   | **去框架化**        | 直用 transformers+PEFT，零额外依赖 |
+| # | Technique | Description |
+|:--:|------|------|
+| 1 | **LoRA + DoRA** | rank=32, 0.37% trainable params |
+| 2 | **Mixed Training** | 5 datasets injected in one pass |
+| 3 | **Cantonese Protection** | 20 dialect characters preserved during conversion |
+| 4 | **Dynamic Prompts** | Auto-generated instructions for 138 language pairs |
+| 5 | **Framework-Free** | Pure transformers+PEFT, zero extra deps |
 
-> 详见 `docs/微调技术要点总结.md`
+> See `docs/微调技术要点总结.md` for details.
 
-## 📚 训练数据来源
+## 📚 Data Sources
 
-| 来源                      | 句对数    | 许可    |
-| ----------------------- | ------:| ----- |
-| UN Parallel Corpus v1.0 | 6256 万 | UN 许可 |
-| WMT19 News Translation  | 400 万  | 公开    |
-| OPUS-100 (Helsinki-NLP) | 101 万  | CC    |
-| news_commentary v16     | 40 万   | WMT   |
-| smol_dataset            | 75 万   | 开源    |
-| cantonese_zh            | 2.4 万  | 公开    |
+| Source | Sentence Pairs | License |
+|--------|-------:|------|
+| UN Parallel Corpus v1.0 | 62.56M | UN |
+| WMT19 News Translation | 4M | Public |
+| OPUS-100 (Helsinki-NLP) | 1.01M | CC |
+| news_commentary v16 | 0.4M | WMT |
+| smol_dataset | 0.75M | Open |
+| cantonese_zh | 24K | Public |
 
-## 🖥️ 硬件需求
+## 🖥️ Hardware
 
-| 场景      | GPU                 | 显存    |
-| ------- | ------------------- |:-----:|
-| 推理      | 任意 CUDA GPU         | 15 GB |
-| 训练 7B   | 4090D / 4090 / 3090 | 24 GB |
-| 训练 1.8B | 4060+               | 8 GB  |
+| Scenario | GPU | VRAM |
+|----------|------|:--:|
+| Inference | Any CUDA GPU | 15 GB |
+| Train 7B | 4090D / 4090 / 3090 | 24 GB |
+| Train 1.8B | 4060+ | 8 GB |
 
-## 📝 引用
+## 📝 Citation
 
-基座模型：[Tencent Hy-MT2](https://huggingface.co/tencent/Hy-MT2-7B)
+Base model: [Tencent Hy-MT2](https://huggingface.co/tencent/Hy-MT2-7B)
 
 ```bibtex
-@software{lora-mt,
+@software{mt-lora,
   title = {LoRA-MT: Multilingual Translation via LoRA Fine-Tuning},
+  author = {王新澄},
   year = {2026},
-  url = {https://github.com/Adobiz/lora-mt}
+  url = {https://github.com/Adobiz/mt-lora}
 }
 ```
 
-## 📄 许可
+## 📄 License
 
-MIT License — 见 [LICENSE](LICENSE)
+MIT — see [LICENSE](LICENSE)
